@@ -1,0 +1,15 @@
+{
+    "aws_default": {
+        "conn_type": "aws",
+        "login": "sample_login",
+        "password": "sample_secret_key"
+    },
+    "pgsql": {
+      "conn_type": "postgres",
+      "host": "db",
+      "port":5432,
+      "schema": "postgres",
+      "login": "postgres",
+      "password": "postgres"
+    }
+}

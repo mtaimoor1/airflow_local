@@ -1,0 +1,39 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  webserver:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ['airflow', 'webserver']
+    environment:
+      - ENV=dev
+    depends_on:
+      - postgres
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./config/airflow.cfg:/opt/airflow/airflow.cfg
+    ports:
+      - "8080:8080"
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ['airflow', 'scheduler']
+    environment:
+      - ENV=dev
+    depends_on:
+      - postgres
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./config/airflow.cfg:/opt/airflow/airflow.cfg
+
+volumes:
+  postgres_data:
