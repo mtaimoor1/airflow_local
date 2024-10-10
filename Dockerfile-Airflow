@@ -1,0 +1,28 @@
+FROM python:3.11.4-slim
+
+RUN apt update; \
+    apt install pigz pbzip2 zip libjpeg-dev zlib1g-dev libpq-dev git curl -y; \
+    rm -rf /var/cache/apt/*; \
+    rm -rf /var/lib/apt/lists/*
+
+ENV APP_HOME="/opt"
+
+# Install Airflow
+ENV AIRFLOW_HOME="${APP_HOME}/airflow"
+
+COPY requirements.txt ${AIRFLOW_HOME}/requirements.txt
+COPY requirements_constraint.txt ${AIRFLOW_HOME}/requirements_constraint.txt
+
+RUN python3 -m pip install --no-cache-dir --upgrade pip; \
+    python3 -m pip install --no-cache-dir -r ${AIRFLOW_HOME}/requirements_constraint.txt; \
+    python3 -m pip install --no-cache-dir -r ${AIRFLOW_HOME}/requirements.txt
+
+
+COPY ./entrypoint.sh /entrypoint
+
+# Setup Airflow
+WORKDIR ${AIRFLOW_HOME}
+
+# Getting environment variable
+
+ENTRYPOINT ["/entrypoint"]
