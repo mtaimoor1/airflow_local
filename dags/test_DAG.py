@@ -9,6 +9,7 @@ default_args = {
     "retries": 0,
     "depends_on_past": True,
     "wait_for_downstream": True,
+    "schedule_interval": None
 }
 
 
@@ -38,7 +39,6 @@ def test2():
 with DAG(
     "test_DAG",
     default_args=default_args,
-    schedule_interval="* * * * *",
     catchup=False,
     user_defined_macros={"prev_run_date": compute_prev_run_date},
     description="Gets all the trip data and dump it to postgres",

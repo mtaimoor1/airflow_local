@@ -1,4 +1,4 @@
-FROM apache/airflow:2.7.2
+FROM apache/airflow:3.0.0
 
 ENV APP_HOME="/opt"
 
@@ -16,5 +16,6 @@ COPY entrypoint.sh ${APP_HOME}
 #COPY dags ${AIRFLOW_HOME}/dags
 
 RUN mkdir -p ${AIRFLOW_HOME}/data/processed
+RUN touch /opt/airflow/pass.json
 
 ENTRYPOINT [ "/opt/entrypoint.sh" ]

@@ -1,4 +1,3 @@
-version: '3'
 services:
   postgres:
     image: postgres:13
@@ -12,7 +11,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: ['airflow', 'webserver']
+    command: ['airflow', 'api-server']
     environment:
       - ENV=dev
     depends_on:
